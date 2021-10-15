@@ -2,7 +2,7 @@ import { ChainId, Currency, NATIVE, SUSHI_ADDRESS } from '@sushiswap/sdk'
 import { Feature, featureEnabled } from '../../functions/feature'
 import React, { useEffect, useState } from 'react'
 
-import { ANALYTICS_URL } from '../../constants'
+import { ANALYTICS_URL, LICP_ADDRESS, WICP_ADDRESS } from '../../constants'
 import Buy from '../../features/on-ramp/ramp'
 import ExternalLink from '../ExternalLink'
 import Image from 'next/image'
@@ -67,7 +67,7 @@ function AppBar(): JSX.Element {
                           </a>
                         </NavLink>
                       )} */}
-                      {chainId && featureEnabled(Feature.LIQUIDITY_MINING, chainId) && (
+                      {/* {chainId && featureEnabled(Feature.LIQUIDITY_MINING, chainId) && (
                         <NavLink href={'/farm'}>
                           <a
                             id={`farm-nav-link`}
@@ -76,7 +76,7 @@ function AppBar(): JSX.Element {
                             {i18n._(t`Farm`)}
                           </a>
                         </NavLink>
-                      )}
+                      )} */}
                       {/* {chainId && featureEnabled(Feature.KASHI, chainId) && (
                         <>
                           <NavLink href={'/lend'}>
@@ -97,7 +97,7 @@ function AppBar(): JSX.Element {
                           </NavLink>
                         </>
                       )} */}
-                      {chainId && featureEnabled(Feature.STAKING, chainId) && (
+                      {/* {chainId && featureEnabled(Feature.STAKING, chainId) && (
                         <NavLink href={'/stake'}>
                           <a
                             id={`stake-nav-link`}
@@ -106,16 +106,16 @@ function AppBar(): JSX.Element {
                             {i18n._(t`Stake`)}
                           </a>
                         </NavLink>
-                      )}
+                      )} */}
                     </div>
                   </div>
                 </div>
 
                 <div className="fixed bottom-0 left-0 z-10 flex flex-row items-center justify-center w-full p-4 lg:w-auto bg-dark-1000 lg:relative lg:p-0 lg:bg-transparent">
                   <div className="flex items-center justify-between w-full space-x-2 sm:justify-end">
-                    {chainId && [ChainId.MAINNET].includes(chainId) && library && library.provider.isMetaMask && (
+                    {chainId && [ChainId.MATIC].includes(chainId) && library && library.provider.isMetaMask && (
                       <>
-                        <QuestionHelper text={i18n._(t`Add xSUSHI to your MetaMask wallet`)}>
+                        <QuestionHelper text={i18n._(t`Add Wrapped ICP to your MetaMask wallet`)}>
                           <div
                             className="hidden p-0.5 rounded-md cursor-pointer sm:inline-flex bg-dark-900 hover:bg-dark-800"
                             onClick={() => {
@@ -123,11 +123,10 @@ function AppBar(): JSX.Element {
                                 const params: any = {
                                   type: 'ERC20',
                                   options: {
-                                    address: '0x8798249c2e607446efb7ad49ec89dd1865ff4272',
-                                    symbol: 'XSUSHI',
+                                    address: WICP_ADDRESS,
+                                    symbol: 'icp-20',
                                     decimals: 18,
-                                    image:
-                                      'https://raw.githubusercontent.com/sushiswap/assets/master/blockchains/ethereum/assets/0x8798249c2E607446EfB7Ad49eC89dD1865Ff4272/logo.png',
+                                    image: 'https://liquid-icp.vercel.app/images/logo.png',
                                   },
                                 }
                                 library.provider
@@ -137,7 +136,7 @@ function AppBar(): JSX.Element {
                                   })
                                   .then((success) => {
                                     if (success) {
-                                      console.log('Successfully added XSUSHI to MetaMask')
+                                      console.log('Successfully added WICP to MetaMask')
                                     } else {
                                       throw new Error('Something went wrong.')
                                     }
@@ -147,8 +146,8 @@ function AppBar(): JSX.Element {
                             }}
                           >
                             <Image
-                              src="/images/tokens/xsushi-square.jpg"
-                              alt="xSUSHI"
+                              src="/images/tokens/wicp.png"
+                              alt="WICP"
                               width="38px"
                               height="38px"
                               objectFit="contain"
@@ -159,20 +158,19 @@ function AppBar(): JSX.Element {
                       </>
                     )}
 
-                    {chainId && chainId in SUSHI_ADDRESS && library && library.provider.isMetaMask && (
+                    {chainId && chainId === ChainId.MATIC && library && library.provider.isMetaMask && (
                       <>
-                        <QuestionHelper text={i18n._(t`Add SUSHI to your MetaMask wallet`)}>
+                        <QuestionHelper text={i18n._(t`Add LICP to your MetaMask wallet`)}>
                           <div
                             className="hidden rounded-md cursor-pointer sm:inline-flex bg-dark-900 hover:bg-dark-800 p-0.5"
                             onClick={() => {
                               const params: any = {
                                 type: 'ERC20',
                                 options: {
-                                  address: SUSHI_ADDRESS[chainId],
-                                  symbol: 'SUSHI',
+                                  address: LICP_ADDRESS,
+                                  symbol: 'LICP',
                                   decimals: 18,
-                                  image:
-                                    'https://raw.githubusercontent.com/sushiswap/assets/master/blockchains/ethereum/assets/0x6B3595068778DD592e39A122f4f5a5cF09C90fE2/logo.png',
+                                  image: 'https://liquid-icp.vercel.app/images/logo.png',
                                 },
                               }
                               if (library && library.provider.isMetaMask && library.provider.request) {
@@ -183,7 +181,7 @@ function AppBar(): JSX.Element {
                                   })
                                   .then((success) => {
                                     if (success) {
-                                      console.log('Successfully added SUSHI to MetaMask')
+                                      console.log('Successfully added LICP to MetaMask')
                                     } else {
                                       throw new Error('Something went wrong.')
                                     }
@@ -193,8 +191,8 @@ function AppBar(): JSX.Element {
                             }}
                           >
                             <Image
-                              src="/images/tokens/sushi-square.jpg"
-                              alt="SUSHI"
+                              src="/images/tokens/licp.png"
+                              alt="LICP"
                               width="38px"
                               height="38px"
                               objectFit="contain"
@@ -224,7 +222,7 @@ function AppBar(): JSX.Element {
                     <div className="hidden md:block">
                       <LanguageSwitch />
                     </div>
-                    <More />
+                    {/* <More /> */}
                   </div>
                 </div>
                 <div className="flex -mr-2 sm:hidden">
