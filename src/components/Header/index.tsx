@@ -57,7 +57,7 @@ function AppBar(): JSX.Element {
                           {i18n._(t`Pool`)}
                         </a>
                       </NavLink>
-                      {chainId && featureEnabled(Feature.MIGRATE, chainId) && (
+                      {/* {chainId && featureEnabled(Feature.MIGRATE, chainId) && (
                         <NavLink href={'/migrate'}>
                           <a
                             id={`migrate-nav-link`}
@@ -66,7 +66,7 @@ function AppBar(): JSX.Element {
                             {i18n._(t`Migrate`)}
                           </a>
                         </NavLink>
-                      )}
+                      )} */}
                       {chainId && featureEnabled(Feature.LIQUIDITY_MINING, chainId) && (
                         <NavLink href={'/farm'}>
                           <a
@@ -77,7 +77,7 @@ function AppBar(): JSX.Element {
                           </a>
                         </NavLink>
                       )}
-                      {chainId && featureEnabled(Feature.KASHI, chainId) && (
+                      {/* {chainId && featureEnabled(Feature.KASHI, chainId) && (
                         <>
                           <NavLink href={'/lend'}>
                             <a
@@ -96,7 +96,7 @@ function AppBar(): JSX.Element {
                             </a>
                           </NavLink>
                         </>
-                      )}
+                      )} */}
                       {chainId && featureEnabled(Feature.STAKING, chainId) && (
                         <NavLink href={'/stake'}>
                           <a
@@ -284,14 +284,14 @@ function AppBar(): JSX.Element {
                   </a>
                 </Link>
 
-                <Link href={'/migrate'}>
+                {/* <Link href={'/migrate'}>
                   <a
                     id={`migrate-nav-link`}
                     className="p-2 text-baseline text-primary hover:text-high-emphesis focus:text-high-emphesis md:p-3 whitespace-nowrap"
                   >
                     {i18n._(t`Migrate`)}
                   </a>
-                </Link>
+                </Link> */}
 
                 {chainId && featureEnabled(Feature.LIQUIDITY_MINING, chainId) && (
                   <Link href={'/farm'}>
@@ -305,7 +305,7 @@ function AppBar(): JSX.Element {
                   </Link>
                 )}
 
-                {chainId && featureEnabled(Feature.KASHI, chainId) && (
+                {/* {chainId && featureEnabled(Feature.KASHI, chainId) && (
                   <>
                     <Link href={'/lend'}>
                       <a
@@ -325,7 +325,7 @@ function AppBar(): JSX.Element {
                       </a>
                     </Link>
                   </>
-                )}
+                )} */}
 
                 {chainId && featureEnabled(Feature.STAKING, chainId) && (
                   <Link href={'/stake'}>
