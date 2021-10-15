@@ -215,7 +215,7 @@ export const COMMON_BASES: ChainTokenList = {
     MATIC.DAI,
     MATIC.WETH,
     MATIC.USDT,
-    SUSHI[ChainId.MATIC],
+    // SUSHI[ChainId.MATIC],
   ],
   [ChainId.FANTOM]: [
     ...WRAPPED_NATIVE_ONLY[ChainId.FANTOM],
