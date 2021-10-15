@@ -217,7 +217,7 @@ function LimitOrder() {
         <title>{i18n._(t`Limit order`)} | ICP</title>
         <meta
           name="description"
-          content="SushiSwap allows for swapping of ERC20 compatible tokens across multiple networks"
+          content="Liquid-ICP allows for swapping of ERC20 compatible tokens across multiple networks"
         />
       </Head>
       <TokenWarningModal
