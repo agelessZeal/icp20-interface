@@ -165,7 +165,7 @@ function AppBar(): JSX.Element {
                             }}
                           >
                             <Image
-                              src="/images/tokens/wicp-20.png"
+                              src="/images/tokens/wicp.png"
                               alt="WICP"
                               width="38px"
                               height="38px"
