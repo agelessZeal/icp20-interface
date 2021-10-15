@@ -129,7 +129,7 @@ const CurrencyLogo: FunctionComponent<CurrencyLogoProps> = ({
     }
   }, [currency, uriLocations])
 
-  if (currency.isToken) {
+  if (currency && currency.isToken) {
     if (currency instanceof WrappedTokenInfo && currency.chainId === ChainId.MATIC) {
       if (currency.tokenInfo.address.toLowerCase() === '0x1b43b97094aa3c6cc678edb9e28ac67daaa7cc64') {
         return (
