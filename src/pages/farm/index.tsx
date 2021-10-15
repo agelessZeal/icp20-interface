@@ -49,12 +49,12 @@ function Farm(): JSX.Element {
     <Container id="farm-page" className="grid h-full grid-cols-4 py-4 mx-auto md:py-8 lg:py-12 gap-9" maxWidth="7xl">
       <Head>
         <title>Farm | ICP</title>
-        <meta key="description" name="description" content="Farm SUSHI" />
+        <meta key="description" name="description" content="Farm LICP" />
       </Head>
-      <div className={classNames('sticky top-0 hidden lg:block md:col-span-1')} style={{ maxHeight: '40rem' }}>
+      {/* <div className={classNames('sticky top-0 hidden lg:block md:col-span-1')} style={{ maxHeight: '40rem' }}>
         <Menu positionsLength={positions.length} />
-      </div>
-      <div className={classNames('space-y-6 col-span-4 lg:col-span-3')}>
+      </div> */}
+      <div className={classNames('space-y-6 col-span-4 lg:col-span-4')}>
         <Search
           search={search}
           term={term}
@@ -75,7 +75,7 @@ function Farm(): JSX.Element {
           <div className="w-full h-0 ml-4 font-bold bg-transparent border border-b-0 border-transparent rounded text-high-emphesis md:border-gradient-r-blue-pink-dark-800 opacity-20"></div>
         </div>
 
-        <FarmList farms={result} term={term} />
+        {/* <FarmList farms={result} term={term} /> */}
       </div>
     </Container>
   )

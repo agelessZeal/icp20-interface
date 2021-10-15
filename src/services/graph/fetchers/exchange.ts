@@ -154,6 +154,14 @@ export const getSushiPrice = async (variables = {}) => {
   })
 }
 
+export const getLICPPrice = async (variables = {}) => {
+  // console.log('getSushiPrice')
+  return getTokenPrice(ChainId.MATIC, tokenPriceQuery, {
+    id: '0x1b43b97094aa3c6cc678edb9e28ac67daaa7cc64',
+    ...variables,
+  })
+}
+
 export const getStakePrice = async (variables = {}) => {
   return getTokenPrice(ChainId.XDAI, tokenPriceQuery, {
     id: '0xb7d311e2eb55f2f68a9440da38e7989210b9a05e',

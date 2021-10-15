@@ -191,6 +191,10 @@ export const WBTC = new Token(ChainId.MAINNET, '0x2260FAC5E5542a773Aa44fBCfeDf7C
 
 export const XSUSHI = new Token(ChainId.MAINNET, '0x8798249c2E607446EfB7Ad49eC89dD1865Ff4272', 18, 'xSUSHI', 'SushiBar')
 
+export const LICP = new Token(ChainId.MATIC, '0x1b43b97094aa3c6cc678edb9e28ac67daaa7cc64', 18, 'LICP', 'Liquid ICP')
+
+export const XLICP = new Token(ChainId.MATIC, '0x8798249c2E607446EfB7Ad49eC89dD1865Ff4272', 18, 'st-ICP', 'ICPBar')
+
 export const LIFT = new Token(ChainId.MAINNET, '0xf9209d900f7ad1DC45376a2caA61c78f6dEA53B6', 18, 'LIFT', 'LiftKitchen')
 export const LFBTC = new Token(
   ChainId.MAINNET,
