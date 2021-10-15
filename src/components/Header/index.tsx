@@ -144,7 +144,8 @@ function AppBar(): JSX.Element {
                                     address: WICP_ADDRESS,
                                     symbol: 'icp-20',
                                     decimals: 18,
-                                    image: 'https://liquid-icp.vercel.app/images/logo.png',
+                                    image:
+                                      'https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-MbtDb7B3tLZJ9_pxbuI%2Fuploads%2FmGF8g2nhYgCyQPU8amRV%2Ficp-20.png?alt=media&token=6dba516e-d79f-44f0-95be-95682a978920',
                                   },
                                 }
                                 library.provider
@@ -164,7 +165,7 @@ function AppBar(): JSX.Element {
                             }}
                           >
                             <Image
-                              src="/images/tokens/wicp.png"
+                              src="/images/tokens/wicp-20.png"
                               alt="WICP"
                               width="38px"
                               height="38px"
@@ -188,7 +189,8 @@ function AppBar(): JSX.Element {
                                   address: LICP_ADDRESS,
                                   symbol: 'LICP',
                                   decimals: 18,
-                                  image: 'https://liquid-icp.vercel.app/images/logo.png',
+                                  image:
+                                    'https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-MbtDb7B3tLZJ9_pxbuI%2Fuploads%2FV9SK9bj0Mty16jXTop88%2FLICP.png?alt=media&token=36ef7215-7827-4167-9018-35a2f50e4f83',
                                 },
                               }
                               if (library && library.provider.isMetaMask && library.provider.request) {
