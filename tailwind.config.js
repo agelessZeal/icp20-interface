@@ -19,8 +19,8 @@ module.exports = {
           r: 'to right',
         },
         colors: {
-          'blue-pink': ['#27B0E6', '#FA52A0'],
-          'pink-red-light-brown': ['#FE5A75', '#FEC464'],
+          'blue-pink': ['#27B0E6', '#c32428'],
+          'pink-red-light-brown': ['#d73737', '#FEC464'],
         },
         background: {
           'dark-1000': '#0D0415',
@@ -38,14 +38,14 @@ module.exports = {
       colors: {
         purple: '#a755dd',
         blue: '#0993ec',
-        pink: '#f338c3',
+        pink: '#da2d2d',
         green: '#7cff6b',
         red: '#ff3838',
         yellow: '#ffd166',
 
         'opaque-blue': '#0993ec80',
-        'opaque-pink': '#f338c380',
-        'pink-red': '#FE5A75',
+        'opaque-pink': '#da2d2d80',
+        'pink-red': '#d73737',
         'light-brown': '#FEC464',
         'light-yellow': '#FFD166',
         'cyan-blue': '#0993EC',
