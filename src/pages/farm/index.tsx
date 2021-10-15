@@ -12,8 +12,10 @@ import useFarmRewards from '../../hooks/useFarmRewards'
 import { usePositions } from '../../features/onsen/hooks'
 import { useRouter } from 'next/router'
 import Provider from '../../features/kashi/context'
+import NetworkGuard from '../../guards/Network'
+import { ChainId } from '@sushiswap/sdk'
 
-export default function Farm(): JSX.Element {
+function Farm(): JSX.Element {
   const { chainId } = useActiveWeb3React()
 
   const router = useRouter()
@@ -80,3 +82,7 @@ export default function Farm(): JSX.Element {
 }
 
 Farm.Provider = Provider
+
+Farm.Guard = NetworkGuard([ChainId.MATIC])
+
+export default Farm
