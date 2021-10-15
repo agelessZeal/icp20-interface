@@ -37,14 +37,14 @@ function AppBar(): JSX.Element {
             <div className="px-4 py-4">
               <div className="flex items-center justify-between">
                 <div className="flex items-center">
-                  <Image src="/logo.png" alt="Sushi" width="32px" height="32px" />
+                  <Image src="/logo.png" alt="LICP" width="32px" height="32px" />
                   <div className="hidden sm:block sm:ml-4">
-                    <div className="flex space-x-2">
+                    <div className="flex items-center space-x-2">
                       {/* <Buy /> */}
                       <NavLink href="/swap">
                         <a
                           id={`swap-nav-link`}
-                          className="p-2 text-baseline text-primary hover:text-high-emphesis focus:text-high-emphesis md:p-3 whitespace-nowrap"
+                          className="p-2 text-xl text-baseline text-primary hover:text-high-emphesis focus:font-black focus:text-high-emphesis md:p-3 whitespace-nowrap"
                         >
                           {i18n._(t`Swap`)}
                         </a>
@@ -52,7 +52,7 @@ function AppBar(): JSX.Element {
                       <NavLink href="/pool">
                         <a
                           id={`pool-nav-link`}
-                          className="p-2 text-baseline text-primary hover:text-high-emphesis focus:text-high-emphesis md:p-3 whitespace-nowrap"
+                          className="p-2 text-xl text-baseline text-primary hover:text-high-emphesis focus:font-black focus:text-high-emphesis md:p-3 whitespace-nowrap"
                         >
                           {i18n._(t`Pool`)}
                         </a>
@@ -107,6 +107,24 @@ function AppBar(): JSX.Element {
                           </a>
                         </NavLink>
                       )} */}
+
+                      <div className="flex flex-col items-center">
+                        <div
+                          id={`pool-nav-link`}
+                          className="flex flex-col p-2 text-baseline text-gray bg-opacity-40 focus:text-yellow md:p-3 whitespace-nowrap"
+                        >
+                          <span>{i18n._(t`s-Bridge`)}</span>
+                        </div>
+                      </div>
+
+                      <div className="flex items-center">
+                        <div
+                          id={`pool-nav-link`}
+                          className="p-2 text-baseline text-gray bg-opacity-40 focus:text-yellow md:p-3 whitespace-nowrap"
+                        >
+                          {i18n._(t`Insurance`)}
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
