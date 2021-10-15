@@ -54,7 +54,7 @@ function AppBar(): JSX.Element {
                           id={`pool-nav-link`}
                           className="p-2 text-xl text-baseline text-primary hover:text-high-emphesis focus:font-black focus:text-high-emphesis md:p-3 whitespace-nowrap"
                         >
-                          {i18n._(t`Pool`)}
+                          {i18n._(t`Liquidity`)}
                         </a>
                       </NavLink>
                       {/* {chainId && featureEnabled(Feature.MIGRATE, chainId) && (
@@ -67,16 +67,16 @@ function AppBar(): JSX.Element {
                           </a>
                         </NavLink>
                       )} */}
-                      {/* {chainId && featureEnabled(Feature.LIQUIDITY_MINING, chainId) && (
+                      {chainId && featureEnabled(Feature.LIQUIDITY_MINING, chainId) && (
                         <NavLink href={'/farm'}>
                           <a
                             id={`farm-nav-link`}
-                            className="p-2 text-baseline text-primary hover:text-high-emphesis focus:text-high-emphesis md:p-3 whitespace-nowrap"
+                            className="p-2 text-xl text-baseline text-primary hover:text-high-emphesis focus:text-high-emphesis md:p-3 whitespace-nowrap"
                           >
                             {i18n._(t`Farm`)}
                           </a>
                         </NavLink>
-                      )} */}
+                      )}
                       {/* {chainId && featureEnabled(Feature.KASHI, chainId) && (
                         <>
                           <NavLink href={'/lend'}>
@@ -97,16 +97,16 @@ function AppBar(): JSX.Element {
                           </NavLink>
                         </>
                       )} */}
-                      {/* {chainId && featureEnabled(Feature.STAKING, chainId) && (
+                      {chainId && featureEnabled(Feature.STAKING, chainId) && (
                         <NavLink href={'/stake'}>
                           <a
                             id={`stake-nav-link`}
-                            className="p-2 text-baseline text-primary hover:text-high-emphesis focus:text-high-emphesis md:p-3 whitespace-nowrap"
+                            className="p-2 text-xl text-baseline text-primary hover:text-high-emphesis focus:text-high-emphesis md:p-3 whitespace-nowrap"
                           >
                             {i18n._(t`Stake`)}
                           </a>
                         </NavLink>
-                      )} */}
+                      )}
 
                       <div className="flex flex-col items-center">
                         <div
