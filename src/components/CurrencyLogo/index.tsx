@@ -5,6 +5,8 @@ import Logo from '../Logo'
 import { WrappedTokenInfo } from '../../state/lists/wrappedTokenInfo'
 import useHttpLocations from '../../hooks/useHttpLocations'
 
+import Image from '../Image'
+
 const BLOCKCHAIN = {
   [ChainId.MAINNET]: 'ethereum',
   [ChainId.BSC]: 'binanace',
@@ -125,6 +127,17 @@ const CurrencyLogo: FunctionComponent<CurrencyLogoProps> = ({
       return defaultUrls
     }
   }, [currency, uriLocations])
+
+  if (currency.isToken) {
+    if (currency instanceof WrappedTokenInfo && currency.chainId === ChainId.MATIC) {
+      if (currency.tokenInfo.address.toLowerCase() === '0x1b43b97094aa3c6cc678edb9e28ac67daaa7cc64') {
+        return <Image src="/images/tokens/licp.png" width={size} height={size} alt={currency?.symbol} {...rest} />
+      }
+      if (currency.tokenInfo.address.toLowerCase() === '0xd63568e4bcb3d32c928e243e2bdb9e272d748a06') {
+        return <Image src="/images/tokens/wicp.png" width={size} height={size} alt={currency?.symbol} {...rest} />
+      }
+    }
+  }
 
   return <Logo srcs={srcs} width={size} height={size} alt={currency?.symbol} className={className} {...rest} />
 }
