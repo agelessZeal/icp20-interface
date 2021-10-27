@@ -96,7 +96,10 @@ const ManageBar = ({ farm }) => {
   const parsedWithdrawValue = tryParseAmount(withdrawValue, liquidityToken)
 
   const APPROVAL_ADDRESSES = {
-    [Chef.MASTERCHEF]: { [ChainId.MAINNET]: MASTERCHEF_ADDRESS[ChainId.MAINNET] },
+    [Chef.MASTERCHEF]: {
+      [ChainId.MAINNET]: MASTERCHEF_ADDRESS[ChainId.MAINNET],
+      [ChainId.MATIC]: MASTERCHEF_ADDRESS[ChainId.MATIC],
+    },
     [Chef.MASTERCHEF_V2]: { [ChainId.MAINNET]: MASTERCHEF_V2_ADDRESS[ChainId.MAINNET] },
     [Chef.MINICHEF]: {
       [ChainId.MATIC]: MINICHEF_ADDRESS[ChainId.MATIC],
@@ -107,6 +110,8 @@ const ManageBar = ({ farm }) => {
   }
 
   const [approvalState, approve] = useApproveCallback(parsedDepositValue, APPROVAL_ADDRESSES[farm.chef][chainId])
+
+  console.log('ManageBar:', liquidityToken, approvalState)
 
   const depositError = !parsedDepositValue
     ? 'Enter an amount'
