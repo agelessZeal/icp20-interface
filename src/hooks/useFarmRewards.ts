@@ -4,6 +4,7 @@ import {
   useBlock,
   useEthPrice,
   useFarms,
+  useLICPPrice,
   // useKashiPairs,
   useMasterChefV1SushiPerBlock,
   useMasterChefV1TotalAllocPoint,
@@ -35,7 +36,7 @@ export default function useFarmRewards() {
     {
       accSushiPerShare: '',
       allocPoint: 100,
-      balance: 316227765018579,
+      balance: 316227765018,
       chef: 0,
       id: '0',
       lastRewardTime: 1631266290,
@@ -50,7 +51,7 @@ export default function useFarmRewards() {
     {
       accSushiPerShare: '',
       allocPoint: 100,
-      balance: 316227765018579,
+      balance: 3162277650185,
       chef: 0,
       id: '1',
       lastRewardTime: 1631266290,
@@ -64,11 +65,10 @@ export default function useFarmRewards() {
     },
   ]
 
-  // const farms = useFarms({ chainId })
+  // const chfarms = useFarms({ chainId })
   const farmAddresses = useMemo(() => farms.map((farm) => farm.pair), [farms])
   const swapPairs = useSushiPairs({ subset: farmAddresses, shouldFetch: !!farmAddresses, chainId })
 
-  console.log('swapPairs:', swapPairs)
   const swapPairs1w = useSushiPairs({
     subset: farmAddresses,
     block: block1w,
@@ -82,8 +82,9 @@ export default function useFarmRewards() {
   useMasterChefV1TotalAllocPoint()
   const masterChefV1SushiPerBlock = useMasterChefV1SushiPerBlock()
 
-  const [sushiPrice, ethPrice, maticPrice, stakePrice, onePrice] = [
+  const [sushiPrice, licpPrice, ethPrice, maticPrice, stakePrice, onePrice] = [
     useSushiPrice(),
+    useLICPPrice(),
     useEthPrice(),
     useMaticPrice(),
     useStakePrice(),
@@ -91,6 +92,8 @@ export default function useFarmRewards() {
   ]
 
   const blocksPerDay = 86400 / Number(averageBlockTime)
+
+  console.log('LICPPrice:', licpPrice)
 
   const map = (pool) => {
     // TODO: Deal with inconsistencies between properties on subgraph
@@ -118,11 +121,11 @@ export default function useFarmRewards() {
       const rewardPerBlock = (pool.allocPoint / pool.owner.totalAllocPoint) * sushiPerBlock
 
       const defaultReward = {
-        token: 'SUSHI',
-        icon: 'https://raw.githubusercontent.com/sushiswap/icons/master/token/sushi.jpg',
+        token: 'LICP',
+        icon: '/images/tokens/licp.png',
         rewardPerBlock,
         rewardPerDay: rewardPerBlock * blocksPerDay,
-        rewardPrice: sushiPrice,
+        rewardPrice: licpPrice,
       }
 
       let rewards = [defaultReward]
