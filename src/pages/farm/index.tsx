@@ -8,27 +8,26 @@ import Menu from '../../features/onsen/FarmMenu'
 import React from 'react'
 import Search from '../../components/Search'
 import { classNames } from '../../functions'
-import useFarmRewards from '../../hooks/useFarmRewards'
 import { usePositions } from '../../features/onsen/hooks'
 import { useRouter } from 'next/router'
-import Provider from '../../features/kashi/context'
+// import Provider from '../../features/kashi/context'
 import NetworkGuard from '../../guards/Network'
 import { ChainId } from '@sushiswap/sdk'
 
+import useFarmRewards from '../../hooks/useFarmRewards'
+
 function Farm(): JSX.Element {
-  const { chainId } = useActiveWeb3React()
+  // const { chainId } = useActiveWeb3React()
 
   const router = useRouter()
   const type = router.query.filter == null ? 'all' : (router.query.filter as string)
 
-  const positions = usePositions(chainId)
+  // const positions = usePositions(chainId)
 
   const FILTER = {
     all: (farm) => farm.allocPoint !== '0',
     portfolio: (farm) => farm?.amount && !farm.amount.isZero(),
     sushi: (farm) => farm.pair.type === PairType.SWAP && farm.allocPoint !== '0',
-    kashi: (farm) => farm.pair.type === PairType.KASHI && farm.allocPoint !== '0',
-    '2x': (farm) => (farm.chef === Chef.MASTERCHEF_V2 || farm.chef === Chef.MINICHEF) && farm.allocPoint !== '0',
   }
 
   const data = useFarmRewards().filter((farm) => {
@@ -55,14 +54,14 @@ function Farm(): JSX.Element {
         <Menu positionsLength={positions.length} />
       </div> */}
       <div className={classNames('space-y-6 col-span-4 lg:col-span-4')}>
-        <Search
+        {/* <Search
           search={search}
           term={term}
           inputProps={{
             className:
               'relative w-full bg-transparent border border-transparent focus:border-gradient-r-blue-pink-dark-900 rounded placeholder-secondary focus:placeholder-primary font-bold text-base px-6 py-3.5',
           }}
-        />
+        /> */}
 
         {/* <div className="flex items-center text-lg font-bold text-high-emphesis whitespace-nowrap">
             Ready to Stake{' '}
@@ -75,13 +74,13 @@ function Farm(): JSX.Element {
           <div className="w-full h-0 ml-4 font-bold bg-transparent border border-b-0 border-transparent rounded text-high-emphesis md:border-gradient-r-blue-pink-dark-800 opacity-20"></div>
         </div>
 
-        {/* <FarmList farms={result} term={term} /> */}
+        <FarmList farms={result} term={term} />
       </div>
     </Container>
   )
 }
 
-Farm.Provider = Provider
+// Farm.Provider = Provider
 
 Farm.Guard = NetworkGuard([ChainId.MATIC])
 
