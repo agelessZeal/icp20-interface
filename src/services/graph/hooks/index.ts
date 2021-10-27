@@ -33,13 +33,16 @@ export function useMasterChefV1TotalAllocPoint(swrConfig = undefined) {
 
 export function useMasterChefV1SushiPerBlock(swrConfig = undefined) {
   const { chainId } = useActiveWeb3React()
-  const shouldFetch = chainId && chainId === ChainId.MAINNET
-  const { data } = useSWR(
-    shouldFetch ? 'masterChefV1SushiPerBlock' : null,
-    () => getMasterChefV1SushiPerBlock(),
-    swrConfig
-  )
-  return data
+
+  return 40000000000000000 / 1e18
+
+  // const shouldFetch = chainId && chainId === ChainId.MAINNET
+  // const { data } = useSWR(
+  //   shouldFetch ? 'masterChefV1SushiPerBlock' : null,
+  //   () => getMasterChefV1SushiPerBlock(),
+  //   swrConfig
+  // )
+  // return data
 }
 
 interface useFarmsProps {

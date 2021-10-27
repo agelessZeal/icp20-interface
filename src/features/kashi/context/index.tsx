@@ -239,15 +239,15 @@ export function KashiProvider({ children }) {
       const invalidOracles = []
 
       const allPairAddresses = logPairs
-        .filter((pair) => {
-          const oracle = getOracle(pair, chainId, tokens)
+        // .filter((pair) => {
+        //   const oracle = getOracle(pair, chainId, tokens)
 
-          if (!oracle.valid) {
-            // console.log(pair, oracle.valid, oracle.error)
-            invalidOracles.push({ pair, error: oracle.error })
-          }
-          return oracle.valid
-        })
+        //   if (!oracle || !oracle.valid) {
+        //     // console.log(pair, oracle.valid, oracle.error)
+        //     invalidOracles.push({ pair, error: oracle?.error })
+        //   }
+        //   return oracle?.valid
+        // })
         .map((pair) => pair.address)
 
       console.log('invalidOracles', invalidOracles)

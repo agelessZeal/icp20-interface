@@ -4,7 +4,7 @@ import {
   useBlock,
   useEthPrice,
   useFarms,
-  useKashiPairs,
+  // useKashiPairs,
   useMasterChefV1SushiPerBlock,
   useMasterChefV1TotalAllocPoint,
   useMaticPrice,
@@ -23,25 +23,63 @@ import { usePositions } from '../features/onsen/hooks'
 import { aprToApy } from '../functions/convert/apyApr'
 
 export default function useFarmRewards() {
-  const { chainId } = useActiveWeb3React()
+  // const { chainId } = useActiveWeb3React()
+
+  const chainId = ChainId.MATIC
 
   const positions = usePositions(chainId)
 
   const block1w = useBlock({ daysAgo: 7, chainId })
 
-  const farms = useFarms({ chainId })
+  const farms = [
+    {
+      accSushiPerShare: '',
+      allocPoint: 100,
+      balance: 316227765018579,
+      chef: 0,
+      id: '0',
+      lastRewardTime: 1631266290,
+      owner: {
+        id: '0xA87ac87dc6AB9679ae113890209D8a0728c7F7Fc',
+        totalAllocPoint: 200,
+      },
+      pair: '0x47ee7e6a997ba0d1b02b1de786a6324f8e8cef20',
+      slpBalance: 8194046008108,
+      userCount: '0',
+    },
+    {
+      accSushiPerShare: '',
+      allocPoint: 100,
+      balance: 316227765018579,
+      chef: 0,
+      id: '1',
+      lastRewardTime: 1631266290,
+      owner: {
+        id: '0xA87ac87dc6AB9679ae113890209D8a0728c7F7Fc',
+        totalAllocPoint: 200,
+      },
+      pair: '0x5d8f1923643f822e2ce6634ad14f273276a78c30',
+      slpBalance: 8194046008108,
+      userCount: '0',
+    },
+  ]
+
+  // const farms = useFarms({ chainId })
   const farmAddresses = useMemo(() => farms.map((farm) => farm.pair), [farms])
   const swapPairs = useSushiPairs({ subset: farmAddresses, shouldFetch: !!farmAddresses, chainId })
+
+  console.log('swapPairs:', swapPairs)
   const swapPairs1w = useSushiPairs({
     subset: farmAddresses,
     block: block1w,
     shouldFetch: !!block1w && !!farmAddresses,
     chainId,
   })
-  const kashiPairs = useKashiPairs({ subset: farmAddresses, shouldFetch: !!farmAddresses, chainId })
+  // const kashiPairs = useKashiPairs({ subset: farmAddresses, shouldFetch: !!farmAddresses, chainId })
 
   const averageBlockTime = useAverageBlockTime()
-  const masterChefV1TotalAllocPoint = useMasterChefV1TotalAllocPoint()
+  const masterChefV1TotalAllocPoint = 200
+  useMasterChefV1TotalAllocPoint()
   const masterChefV1SushiPerBlock = useMasterChefV1SushiPerBlock()
 
   const [sushiPrice, ethPrice, maticPrice, stakePrice, onePrice] = [
@@ -61,9 +99,9 @@ export default function useFarmRewards() {
 
     const swapPair = swapPairs?.find((pair) => pair.id === pool.pair)
     const swapPair1w = swapPairs1w?.find((pair) => pair.id === pool.pair)
-    const kashiPair = kashiPairs?.find((pair) => pair.id === pool.pair)
+    // const kashiPair = kashiPairs?.find((pair) => pair.id === pool.pair)
 
-    const pair = swapPair || kashiPair
+    const pair = swapPair
     const pair1w = swapPair1w
 
     const type = swapPair ? PairType.SWAP : PairType.KASHI
@@ -167,11 +205,9 @@ export default function useFarmRewards() {
 
     const rewards = getRewards()
 
-    const balance = swapPair ? Number(pool.balance / 1e18) : pool.balance / 10 ** kashiPair.token0.decimals
+    const balance = swapPair ? Number(pool.balance / 1e18) : 0
 
-    const tvl = swapPair
-      ? (balance / Number(swapPair.totalSupply)) * Number(swapPair.reserveUSD)
-      : balance * kashiPair.token0.derivedETH * ethPrice
+    const tvl = swapPair ? (balance / Number(swapPair.totalSupply)) * Number(swapPair.reserveUSD) : 0
 
     const feeApyPerYear = swapPair
       ? aprToApy((((((pair?.volumeUSD - pair1w?.volumeUSD) * 0.0025) / 7) * 365) / pair?.reserveUSD) * 100, 3650) / 100
@@ -227,10 +263,7 @@ export default function useFarmRewards() {
 
   return farms
     .filter((farm) => {
-      return (
-        (swapPairs && swapPairs.find((pair) => pair.id === farm.pair)) ||
-        (kashiPairs && kashiPairs.find((pair) => pair.id === farm.pair))
-      )
+      return swapPairs && swapPairs.find((pair) => pair.id === farm.pair)
     })
     .map(map)
 }
