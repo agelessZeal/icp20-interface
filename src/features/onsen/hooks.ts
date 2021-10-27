@@ -88,7 +88,7 @@ export function usePendingSushi(farm) {
     return [String(farm.id), String(account)]
   }, [farm, account])
 
-  const result = useSingleCallResult(args ? contract : null, 'pendingSushi', args)?.result
+  const result = useSingleCallResult(args ? contract : null, 'pendingReward', args)?.result
 
   const value = result?.[0]
 
@@ -129,7 +129,7 @@ export function useChefPositions(contract?: Contract | null, rewarder?: Contract
     return [...Array(numberOfPools.toNumber()).keys()].map((pid) => [String(pid), String(account)])
   }, [numberOfPools, account])
 
-  const pendingSushi = useSingleContractMultipleData(args ? contract : null, 'pendingSushi', args)
+  const pendingSushi = useSingleContractMultipleData(args ? contract : null, 'pendingReward', args)
 
   const userInfo = useSingleContractMultipleData(args ? contract : null, 'userInfo', args)
 
@@ -168,12 +168,12 @@ export function useChefPositions(contract?: Contract | null, rewarder?: Contract
 }
 
 export function usePositions(chainId = undefined) {
-  const [masterChefV1Positions, masterChefV2Positions, miniChefPositions] = [
+  const [masterChefV1Positions] = [
     useChefPositions(useMasterChefContract(), undefined, chainId),
-    useChefPositions(useMasterChefV2Contract(), undefined, chainId),
-    useChefPositions(useMiniChefContract(), undefined, chainId),
+    // useChefPositions(useMasterChefV2Contract(), undefined, chainId),
+    // useChefPositions(useMiniChefContract(), undefined, chainId),
   ]
-  return concat(masterChefV1Positions, masterChefV2Positions, miniChefPositions)
+  return concat(masterChefV1Positions)
 }
 
 /*
