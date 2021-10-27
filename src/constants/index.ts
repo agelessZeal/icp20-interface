@@ -24,6 +24,8 @@ export const LICP_ADDRESS = '0x1b43b97094aa3c6cc678edb9e28ac67daaa7cc64'
 
 export const WICP_ADDRESS = '0xd63568e4bcb3d32c928e243e2bdb9e272d748a06'
 
+export const st_ICP_ADDRESS = '0xe7946921c619F5D9E8f28E3A5B4d218e9520dD11'
+
 // one basis point
 export const ONE_BIPS = new Percent(JSBI.BigInt(1), JSBI.BigInt(10000))
 export const BIPS_BASE = JSBI.BigInt(10000)

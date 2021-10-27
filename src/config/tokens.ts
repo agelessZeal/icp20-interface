@@ -193,7 +193,9 @@ export const XSUSHI = new Token(ChainId.MAINNET, '0x8798249c2E607446EfB7Ad49eC89
 
 export const LICP = new Token(ChainId.MATIC, '0x1b43b97094aa3c6cc678edb9e28ac67daaa7cc64', 18, 'LICP', 'Liquid ICP')
 
-export const XLICP = new Token(ChainId.MATIC, '0x8798249c2E607446EfB7Ad49eC89dD1865Ff4272', 18, 'st-ICP', 'ICPBar')
+export const ICP20 = new Token(ChainId.MATIC, '0xd63568e4bcb3d32c928e243e2bdb9e272d748a06', 18, 'ICP-20', 'Wrapped ICP')
+
+export const ST_ICP = new Token(ChainId.MATIC, '0xe7946921c619F5D9E8f28E3A5B4d218e9520dD11', 18, 'st-ICP', 'ICPBar')
 
 export const LIFT = new Token(ChainId.MAINNET, '0xf9209d900f7ad1DC45376a2caA61c78f6dEA53B6', 18, 'LIFT', 'LiftKitchen')
 export const LFBTC = new Token(
