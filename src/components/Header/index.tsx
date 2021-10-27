@@ -2,7 +2,7 @@ import { ChainId, Currency, NATIVE, SUSHI_ADDRESS } from '@sushiswap/sdk'
 import { Feature, featureEnabled } from '../../functions/feature'
 import React, { useEffect, useState } from 'react'
 
-import { ANALYTICS_URL, LICP_ADDRESS, WICP_ADDRESS } from '../../constants'
+import { ANALYTICS_URL, LICP_ADDRESS, st_ICP_ADDRESS, WICP_ADDRESS } from '../../constants'
 import Buy from '../../features/on-ramp/ramp'
 import ExternalLink from '../ExternalLink'
 import Image from 'next/image'
@@ -133,6 +133,52 @@ function AppBar(): JSX.Element {
                   <div className="flex items-center justify-between w-full space-x-2 sm:justify-end">
                     {chainId && [ChainId.MATIC].includes(chainId) && library && library.provider.isMetaMask && (
                       <>
+                        <QuestionHelper text={i18n._(t`Add st-ICP to your MetaMask wallet`)}>
+                          <div
+                            className="hidden p-0.5 rounded-md cursor-pointer sm:inline-flex bg-dark-900 hover:bg-dark-800"
+                            onClick={() => {
+                              if (library && library.provider.isMetaMask && library.provider.request) {
+                                const params: any = {
+                                  type: 'ERC20',
+                                  options: {
+                                    address: st_ICP_ADDRESS,
+                                    symbol: 'st-icp',
+                                    decimals: 18,
+                                    image:
+                                      'https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-MbtDb7B3tLZJ9_pxbuI%2Fuploads%2FnW55qSr1ZhEGVN7CZ8x6%2Fst-ICP.png?alt=media&token=1fcb7bfc-1e2d-4062-918b-0bfadfdd2582',
+                                  },
+                                }
+                                library.provider
+                                  .request({
+                                    method: 'wallet_watchAsset',
+                                    params,
+                                  })
+                                  .then((success) => {
+                                    if (success) {
+                                      console.log('Successfully added st-ICP to MetaMask')
+                                    } else {
+                                      throw new Error('Something went wrong.')
+                                    }
+                                  })
+                                  .catch(console.error)
+                              }
+                            }}
+                          >
+                            <Image
+                              src="/images/tokens/sticp.png"
+                              alt="st-ICP"
+                              width="38px"
+                              height="38px"
+                              objectFit="contain"
+                              className="rounded-md"
+                            />
+                          </div>
+                        </QuestionHelper>
+                      </>
+                    )}
+
+                    {chainId && [ChainId.MATIC].includes(chainId) && library && library.provider.isMetaMask && (
+                      <>
                         <QuestionHelper text={i18n._(t`Add Wrapped ICP to your MetaMask wallet`)}>
                           <div
                             className="hidden p-0.5 rounded-md cursor-pointer sm:inline-flex bg-dark-900 hover:bg-dark-800"
@@ -155,7 +201,7 @@ function AppBar(): JSX.Element {
                                   })
                                   .then((success) => {
                                     if (success) {
-                                      console.log('Successfully added WICP to MetaMask')
+                                      console.log('Successfully added ICP-20 to MetaMask')
                                     } else {
                                       throw new Error('Something went wrong.')
                                     }
@@ -166,7 +212,7 @@ function AppBar(): JSX.Element {
                           >
                             <Image
                               src="/images/tokens/wicp.png"
-                              alt="WICP"
+                              alt="ICP-20"
                               width="38px"
                               height="38px"
                               objectFit="contain"
