@@ -16,12 +16,14 @@ import {
   useSushiPrice,
 } from '../services/graph'
 
-import { ChainId } from '@sushiswap/sdk'
+import { ChainId, MASTERCHEF_ADDRESS } from '@sushiswap/sdk'
 import { getAddress } from '@ethersproject/address'
 import useActiveWeb3React from './useActiveWeb3React'
 import { useMemo } from 'react'
 import { usePositions } from '../features/onsen/hooks'
 import { aprToApy } from '../functions/convert/apyApr'
+import { useTokenBalances } from '../state/wallet/hooks'
+import { Token, ZERO } from '@sushiswap/sdk'
 
 export default function useFarmRewards() {
   // const { chainId } = useActiveWeb3React()
@@ -42,7 +44,7 @@ export default function useFarmRewards() {
       lastRewardTime: 1631266290,
       owner: {
         id: '0xA87ac87dc6AB9679ae113890209D8a0728c7F7Fc',
-        totalAllocPoint: 200,
+        totalAllocPoint: 300,
       },
       pair: '0x47ee7e6a997ba0d1b02b1de786a6324f8e8cef20',
       slpBalance: 8194046008108,
@@ -57,13 +59,41 @@ export default function useFarmRewards() {
       lastRewardTime: 1631266290,
       owner: {
         id: '0xA87ac87dc6AB9679ae113890209D8a0728c7F7Fc',
-        totalAllocPoint: 200,
+        totalAllocPoint: 300,
       },
       pair: '0x5d8f1923643f822e2ce6634ad14f273276a78c30',
       slpBalance: 8194046008108,
       userCount: '0',
     },
+    {
+      accSushiPerShare: '',
+      allocPoint: 100,
+      balance: 31622776501857,
+      chef: 0,
+      id: '2',
+      lastRewardTime: 1631266290,
+      owner: {
+        id: '0xA87ac87dc6AB9679ae113890209D8a0728c7F7Fc',
+        totalAllocPoint: 300,
+      },
+      pair: '0x3a254c9065264b9bbb394a925b0f44194c5fe847',
+      slpBalance: 8194046008108,
+      userCount: '0',
+    },
   ]
+
+  const liquidityTokens = useMemo(
+    () =>
+      farms.map((farm) => {
+        const token = new Token(chainId, getAddress(farm.pair), 18, 'SLP')
+        return token
+      }),
+    [farms]
+  )
+
+  const stakedBalaces = useTokenBalances(MASTERCHEF_ADDRESS[ChainId.MATIC], liquidityTokens)
+
+  console.log('stakedBalaces:', stakedBalaces)
 
   // const chfarms = useFarms({ chainId })
   const farmAddresses = useMemo(() => farms.map((farm) => farm.pair), [farms])
@@ -92,8 +122,6 @@ export default function useFarmRewards() {
   ]
 
   const blocksPerDay = 86400 / Number(averageBlockTime)
-
-  console.log('LICPPrice:', licpPrice)
 
   const map = (pool) => {
     // TODO: Deal with inconsistencies between properties on subgraph
@@ -208,7 +236,15 @@ export default function useFarmRewards() {
 
     const rewards = getRewards()
 
-    const balance = swapPair ? Number(pool.balance / 1e18) : 0
+    let balance = swapPair ? Number(pool.balance / 1e18) : 0
+
+    if (stakedBalaces) {
+      const stakedBalance = stakedBalaces[pool.pair]
+
+      if (stakedBalance) {
+        console.log('stakedBalance:', stakedBalance, stakedBalance.toExact(), stakedBalance.toFixed())
+      }
+    }
 
     const tvl = swapPair ? (balance / Number(swapPair.totalSupply)) * Number(swapPair.reserveUSD) : 0
 

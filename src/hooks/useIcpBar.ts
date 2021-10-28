@@ -3,14 +3,7 @@ import { Currency, Token } from '@sushiswap/sdk'
 import { useSushiBarContract } from './useContract'
 import { useTransactionAdder } from '../state/transactions/hooks'
 
-import {
-  ChainId,
-  CurrencyAmount,
-  JSBI,
-  MASTERCHEF_ADDRESS,
-  MASTERCHEF_V2_ADDRESS,
-  MINICHEF_ADDRESS,
-} from '@sushiswap/sdk'
+import { ChainId, CurrencyAmount, JSBI } from '@sushiswap/sdk'
 import { Dispatch, useCallback, useEffect, useMemo, useState } from 'react'
 
 import { Contract } from '@ethersproject/contracts'
@@ -54,4 +47,34 @@ export function useIcpBar() {
     }
     return [undefined, undefined]
   }, [amount, amount1])
+}
+
+export function useIcpBarUserInfo() {
+  const { account, chainId } = useActiveWeb3React()
+
+  const contract = useSushiBarContract()
+
+  const args = useMemo(() => {
+    if (!account) {
+      return
+    }
+    return [String(account)]
+  }, [account])
+
+  const userInfo = useSingleCallResult(args ? contract : null, 'userInfo', args)?.result
+
+  const value = userInfo?.unlockTime
+
+  const amount = value ? JSBI.BigInt(value.toString()) : undefined
+
+  return useMemo(() => {
+    if (amount) {
+      const unlockTimestamp = JSBI.toNumber(amount)
+
+      const unlockTime = new Date(unlockTimestamp * 1000)
+
+      return unlockTime
+    }
+    return undefined
+  }, [amount])
 }

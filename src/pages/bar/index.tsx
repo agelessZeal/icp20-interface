@@ -25,7 +25,7 @@ import { useWalletModalToggle } from '../../state/application/hooks'
 import { classNames } from '../../functions'
 import NetworkGuard from '../../guards/Network'
 import { st_ICP_ADDRESS } from '../../constants'
-import { useIcpBar } from '../../hooks/useIcpBar'
+import { useIcpBar, useIcpBarUserInfo } from '../../hooks/useIcpBar'
 
 const INPUT_CHAR_LIMIT = 18
 
@@ -66,6 +66,8 @@ function Stake() {
   // const totalStaked = useTokenBalance(st_ICP_ADDRESS, ICP20)
 
   const [ratio, totalSupply] = useIcpBar()
+
+  const unlockTime = useIcpBarUserInfo()
 
   // const totalShared =
 
@@ -175,7 +177,7 @@ function Stake() {
     // fetchData()
 
     if (totalSupply && ratio) {
-      const wicpVolumUsd = 10
+      const wicpVolumUsd = 1
       const apr = (((wicpVolumUsd * 0.05) / parseFloat(totalSupply.toFixed())) * 365) / (stIcpPerIcp_20 * sushiPrice)
 
       setApr(apr)
@@ -305,6 +307,18 @@ function Stake() {
                     </div>
                   </div>
                 </div>
+
+                {activeTab === 1 && (
+                  <div className="flex flex-col items-center justify-between w-full mt-6">
+                    <p className="font-bold text-large md:text-sm text-red">
+                      {i18n._(t`You can't unstake within 7 days after deposit`)}
+                    </p>
+                    <p className="font-bold text-large md:text-sm text-red">
+                      {unlockTime ? `Unlock time: ${unlockTime?.toLocaleDateString()}` : ''}
+                    </p>
+                  </div>
+                )}
+
                 <div className="flex items-center justify-between w-full mt-6">
                   <p className="font-bold text-large md:text-2xl text-high-emphesis">
                     {activeTab === 0 ? i18n._(t`Stake ICP-20`) : i18n._(t`Unstake`)}
