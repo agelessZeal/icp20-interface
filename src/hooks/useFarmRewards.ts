@@ -36,7 +36,7 @@ export default function useFarmRewards() {
     {
       accSushiPerShare: '',
       allocPoint: 100,
-      balance: 316227765018,
+      balance: 316227765018899,
       chef: 0,
       id: '0',
       lastRewardTime: 1631266290,
@@ -51,7 +51,7 @@ export default function useFarmRewards() {
     {
       accSushiPerShare: '',
       allocPoint: 100,
-      balance: 3162277650185,
+      balance: 31622776501857,
       chef: 0,
       id: '1',
       lastRewardTime: 1631266290,

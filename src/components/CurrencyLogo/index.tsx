@@ -143,6 +143,18 @@ const CurrencyLogo: FunctionComponent<CurrencyLogoProps> = ({
           />
         )
       }
+      if (currency.tokenInfo.address.toLowerCase() === '0xe7946921c619f5d9e8f28e3a5b4d218e9520dd11') {
+        return (
+          <Image
+            src="/images/tokens/sticp.png"
+            width={size}
+            height={size}
+            alt={currency?.symbol}
+            className={classNames('rounded-full', className)}
+            {...rest}
+          />
+        )
+      }
       if (currency.tokenInfo.address.toLowerCase() === '0xd63568e4bcb3d32c928e243e2bdb9e272d748a06') {
         return (
           <Image
