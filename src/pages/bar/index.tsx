@@ -24,6 +24,8 @@ import { useTokenBalance } from '../../state/wallet/hooks'
 import { useWalletModalToggle } from '../../state/application/hooks'
 import { classNames } from '../../functions'
 import NetworkGuard from '../../guards/Network'
+import { st_ICP_ADDRESS } from '../../constants'
+import { useIcpBar } from '../../hooks/useIcpBar'
 
 const INPUT_CHAR_LIMIT = 18
 
@@ -57,16 +59,31 @@ const fetcher = (query) => request('https://api.thegraph.com/subgraphs/name/matt
 function Stake() {
   const { i18n } = useLingui()
   const { account } = useActiveWeb3React()
+
   const icp20Balance = useTokenBalance(account ?? undefined, ICP20)
   const stICPBalance = useTokenBalance(account ?? undefined, ST_ICP)
+
+  // const totalStaked = useTokenBalance(st_ICP_ADDRESS, ICP20)
+
+  const [ratio, totalSupply] = useIcpBar()
+
+  // const totalShared =
+
+  // const ratio = totalStaked.divide(totalShared)
+
+  // console.log('ratio', ratio)
 
   const sushiPrice = useLICPPrice() // useSushiPrice()
 
   const { enter, leave } = useSushiBar()
 
-  const { data } = useSWR(`{bar(id: "0x8798249c2e607446efb7ad49ec89dd1865ff4272") {ratio, totalSupply}}`, fetcher)
+  // const { data } = useSWR(`{bar(id: "0x8798249c2e607446efb7ad49ec89dd1865ff4272") {ratio, totalSupply}}`, fetcher)
 
-  const stIcpPerIcp_20 = parseFloat(data?.bar?.ratio)
+  // const data = { bar: {
+  //   ratio:
+  // }}
+
+  const stIcpPerIcp_20 = ratio as number //parseFloat(ratio)
 
   const walletConnected = !!account
   const toggleWalletModal = useWalletModalToggle()
@@ -84,7 +101,7 @@ function Stake() {
 
   const parsedAmount = usingBalance ? balance : tryParseAmount(input, balance?.currency)
 
-  const [approvalState, approve] = useApproveCallback(parsedAmount, BAR_ADDRESS[ChainId.MAINNET])
+  const [approvalState, approve] = useApproveCallback(parsedAmount, BAR_ADDRESS[ChainId.MATIC])
 
   const handleInput = (v: string) => {
     if (v.length <= INPUT_CHAR_LIMIT) {
@@ -147,14 +164,23 @@ function Stake() {
 
   // TODO: DROP AND USE SWR HOOKS INSTEAD
   useEffect(() => {
-    const fetchData = async () => {
-      const results = await sushiData.exchange.dayData()
-      const apr = (((results[1].volumeUSD * 0.05) / data?.bar?.totalSupply) * 365) / (data?.bar?.ratio * sushiPrice)
+    // const fetchData = async () => {
+    //   // const results = await sushiData.exchange.dayData()
+    //   // const checkRatio =
+    //   const wicpVolumUsd = 100
+    //   const apr = (((wicpVolumUsd * 0.05) / parseFloat(totalSupply.toString())) * 365) / (stIcpPerIcp_20 * sushiPrice)
+
+    //   setApr(apr)
+    // }
+    // fetchData()
+
+    if (totalSupply && ratio) {
+      const wicpVolumUsd = 10
+      const apr = (((wicpVolumUsd * 0.05) / parseFloat(totalSupply.toFixed())) * 365) / (stIcpPerIcp_20 * sushiPrice)
 
       setApr(apr)
     }
-    fetchData()
-  }, [data?.bar?.ratio, data?.bar?.totalSupply, sushiPrice])
+  }, [ratio, totalSupply])
 
   return (
     <Container id="bar-page" className="py-4 md:py-8 lg:py-12" maxWidth="full">
@@ -246,9 +272,9 @@ function Stake() {
                   <p className="mb-1 text-lg font-bold text-right text-high-emphesis md:text-3xl">
                     {`${apr ? apr.toFixed(2) + '%' : i18n._(t`Loading...`)}`}
                   </p>
-                  <p className="w-32 text-sm text-right text-primary md:w-64 md:text-base">
+                  {/* <p className="w-32 text-sm text-right text-primary md:w-64 md:text-base">
                     {i18n._(t`Yesterday's APR`)}
-                  </p>
+                  </p> */}
                 </div>
               </div>
             </div>
@@ -284,7 +310,7 @@ function Stake() {
                     {activeTab === 0 ? i18n._(t`Stake ICP-20`) : i18n._(t`Unstake`)}
                   </p>
                   <div className="border-gradient-r-pink-red-light-brown-dark-pink-red border-transparent border-solid border rounded-3xl px-4 md:px-3.5 py-1.5 md:py-0.5 text-high-emphesis text-xs font-medium md:text-base md:font-normal">
-                    {`1 st-ICP = ${stIcpPerIcp_20.toFixed(4)} ICP-20`}
+                    {`1 st-ICP = ${stIcpPerIcp_20?.toFixed(4)} ICP-20`}
                   </div>
                 </div>
 
@@ -395,7 +421,7 @@ function Stake() {
                     />
                     <div className="flex flex-col justify-center">
                       <p className="text-sm font-bold md:text-lg text-high-emphesis">
-                        {stICPBalance ? stICPBalance.toSignificant(4) : '-'}
+                        {icp20Balance ? icp20Balance.toSignificant(4) : '-'}
                       </p>
                       <p className="text-sm md:text-base text-primary">ICP-20</p>
                     </div>
@@ -419,7 +445,7 @@ function Stake() {
                     />
                     <div className="flex flex-col justify-center">
                       <p className="text-sm font-bold md:text-lg text-high-emphesis">
-                        {icp20Balance ? icp20Balance.toSignificant(4) : '-'}
+                        {stICPBalance ? stICPBalance.toSignificant(4) : '-'}
                       </p>
                       <p className="text-sm md:text-base text-primary">st-ICP</p>
                     </div>

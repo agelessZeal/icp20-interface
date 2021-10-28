@@ -193,8 +193,9 @@ export function useSushiPrice(variables = undefined, swrConfig: SWRConfiguration
 }
 
 export function useLICPPrice(variables = undefined, swrConfig: SWRConfiguration = undefined) {
-  const { data } = useSWR(['licpPrice', JSON.stringify(variables)], () => getLICPPrice(variables), swrConfig)
-  return data
+  return 0.1683
+  // const { data } = useSWR(['licpPrice', JSON.stringify(variables)], () => getLICPPrice(variables), swrConfig)
+  // return data
 }
 
 export function useBundle(variables = undefined, swrConfig: SWRConfiguration = undefined) {
