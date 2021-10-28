@@ -93,7 +93,7 @@ export default function useFarmRewards() {
 
   const stakedBalaces = useTokenBalances(MASTERCHEF_ADDRESS[ChainId.MATIC], liquidityTokens)
 
-  console.log('stakedBalaces:', stakedBalaces)
+  // console.log('stakedBalaces:', stakedBalaces)
 
   // const chfarms = useFarms({ chainId })
   const farmAddresses = useMemo(() => farms.map((farm) => farm.pair), [farms])
@@ -239,18 +239,23 @@ export default function useFarmRewards() {
     let balance = swapPair ? Number(pool.balance / 1e18) : 0
 
     if (stakedBalaces) {
-      const stakedBalance = stakedBalaces[pool.pair]
-
+      const stakedBalance = Object.values(stakedBalaces).find(
+        (token) => token.currency.address.toLowerCase() === pool.pair
+      )
       if (stakedBalance) {
-        console.log('stakedBalance:', stakedBalance, stakedBalance.toExact(), stakedBalance.toFixed())
+        balance = parseFloat(stakedBalance.toExact())
       }
     }
 
     const tvl = swapPair ? (balance / Number(swapPair.totalSupply)) * Number(swapPair.reserveUSD) : 0
 
-    const feeApyPerYear = swapPair
+    let feeApyPerYear = swapPair
       ? aprToApy((((((pair?.volumeUSD - pair1w?.volumeUSD) * 0.0025) / 7) * 365) / pair?.reserveUSD) * 100, 3650) / 100
       : 0
+
+    if (isNaN(feeApyPerYear)) {
+      feeApyPerYear = 0
+    }
 
     const feeApyPerMonth = feeApyPerYear / 12
     const feeApyPerDay = feeApyPerMonth / 30
