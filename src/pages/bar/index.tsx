@@ -215,7 +215,7 @@ function Stake() {
           <div className="flex flex-col w-full max-w-xl mt-auto mb-2">
             <div className="flex max-w-lg">
               <div className="self-end mb-3 text-lg font-bold md:text-2xl text-high-emphesis md:mb-7">
-                {i18n._(t`Maximize yield by staking ICP-20 for st-ICP`)}
+                {i18n._(t`Stake ICP-20 to earn NNS rewards`)}
               </div>
               {/* <div className="self-start pl-6 pr-3 mb-1 min-w-max md:hidden">
                                 <img src={XSushiSignSmall} alt="xsushi sign" />
@@ -423,7 +423,7 @@ function Stake() {
               <div className="flex flex-wrap">
                 <div className="flex flex-col flex-grow md:mb-14">
                   <p className="mb-3 text-lg font-bold md:text-2xl md:font-medium text-high-emphesis">
-                    {i18n._(t`Balance`)}
+                    {i18n._(t`ICP-20 Balance`)}
                   </p>
                   <div className="flex items-center space-x-4">
                     <Image
@@ -445,7 +445,7 @@ function Stake() {
                 <div className="flex flex-col flex-grow">
                   <div className="flex mb-3 ml-8 flex-nowrap md:ml-0">
                     <p className="text-lg font-bold md:text-2xl md:font-medium text-high-emphesis">
-                      {i18n._(t`Unstaked`)}
+                      {i18n._(t`st-ICP Balance`)}
                     </p>
                     {/* <img className="w-4 ml-2 cursor-pointer" src={MoreInfoSymbol} alt={'more info'} /> */}
                   </div>
