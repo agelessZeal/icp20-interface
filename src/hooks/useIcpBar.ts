@@ -42,8 +42,9 @@ export function useIcpBar() {
 
   return useMemo(() => {
     if (amount && amount1) {
-      const ratio = JSBI.divide(amount1, amount)
-      return [JSBI.toNumber(ratio), CurrencyAmount.fromRawAmount(ST_ICP, amount)]
+      const ratio = JSBI.toNumber(amount1) / JSBI.toNumber(amount)
+      const totalSupply = CurrencyAmount.fromRawAmount(ST_ICP, amount)
+      return [ratio, totalSupply]
     }
     return [undefined, undefined]
   }, [amount, amount1])
