@@ -25,22 +25,23 @@ import { aprToApy } from '../functions/convert/apyApr'
 import { useTokenBalances } from '../state/wallet/hooks'
 import { Token, ZERO } from '@sushiswap/sdk'
 import { useMasterChefContract } from '.'
-import { useSingleCallResult } from '../state/multicall/hooks'
+import { NEVER_RELOAD, useSingleCallResult } from '../state/multicall/hooks'
 
 export function useMasterChefRewardPerBlock() {
   const { account, chainId } = useActiveWeb3React()
 
   const contract = useMasterChefContract()
 
-  const userInfo = useSingleCallResult(contract, 'rewardPerBlock')?.result
+  const info = useSingleCallResult(contract, 'rewardPerBlock', undefined, NEVER_RELOAD)?.result
 
-  const value = userInfo?.[0]
+  const value = info?.[0]
 
   const amount = value ? JSBI.BigInt(value.toString()) : undefined
 
   return useMemo(() => {
     if (amount) {
-      return JSBI.toNumber(JSBI.divide(amount, JSBI.BigInt(1e18)))
+      const rewardPerblock = JSBI.toNumber(amount) / 1e18
+      return rewardPerblock
     }
     return 0
   }, [amount])
@@ -59,7 +60,7 @@ export default function useFarmRewards() {
     {
       accSushiPerShare: '',
       allocPoint: 100,
-      balance: 316227765018899,
+      balance: 0,
       chef: 0,
       id: '0',
       lastRewardTime: 1631266290,
@@ -68,13 +69,13 @@ export default function useFarmRewards() {
         totalAllocPoint: 300,
       },
       pair: '0x47ee7e6a997ba0d1b02b1de786a6324f8e8cef20',
-      slpBalance: 8194046008108,
+      slpBalance: 0,
       userCount: '0',
     },
     {
       accSushiPerShare: '',
       allocPoint: 100,
-      balance: 31622776501857,
+      balance: 0,
       chef: 0,
       id: '1',
       lastRewardTime: 1631266290,
@@ -83,13 +84,13 @@ export default function useFarmRewards() {
         totalAllocPoint: 300,
       },
       pair: '0x5d8f1923643f822e2ce6634ad14f273276a78c30',
-      slpBalance: 8194046008108,
+      slpBalance: 0,
       userCount: '0',
     },
     {
       accSushiPerShare: '',
       allocPoint: 100,
-      balance: 31622776501857,
+      balance: 0,
       chef: 0,
       id: '2',
       lastRewardTime: 1631266290,
@@ -98,7 +99,7 @@ export default function useFarmRewards() {
         totalAllocPoint: 300,
       },
       pair: '0x3a254c9065264b9bbb394a925b0f44194c5fe847',
-      slpBalance: 8194046008108,
+      slpBalance: 0,
       userCount: '0',
     },
   ]
