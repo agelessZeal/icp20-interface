@@ -16,7 +16,7 @@ import {
   useSushiPrice,
 } from '../services/graph'
 
-import { ChainId, MASTERCHEF_ADDRESS } from '@sushiswap/sdk'
+import { ChainId, MASTERCHEF_ADDRESS, JSBI } from '@sushiswap/sdk'
 import { getAddress } from '@ethersproject/address'
 import useActiveWeb3React from './useActiveWeb3React'
 import { useMemo } from 'react'
@@ -24,6 +24,27 @@ import { usePositions } from '../features/onsen/hooks'
 import { aprToApy } from '../functions/convert/apyApr'
 import { useTokenBalances } from '../state/wallet/hooks'
 import { Token, ZERO } from '@sushiswap/sdk'
+import { useMasterChefContract } from '.'
+import { useSingleCallResult } from '../state/multicall/hooks'
+
+export function useMasterChefRewardPerBlock() {
+  const { account, chainId } = useActiveWeb3React()
+
+  const contract = useMasterChefContract()
+
+  const userInfo = useSingleCallResult(contract, 'rewardPerBlock')?.result
+
+  const value = userInfo?.[0]
+
+  const amount = value ? JSBI.BigInt(value.toString()) : undefined
+
+  return useMemo(() => {
+    if (amount) {
+      return JSBI.toNumber(JSBI.divide(amount, JSBI.BigInt(1e18)))
+    }
+    return 0
+  }, [amount])
+}
 
 export default function useFarmRewards() {
   // const { chainId } = useActiveWeb3React()
@@ -110,7 +131,10 @@ export default function useFarmRewards() {
   const averageBlockTime = useAverageBlockTime()
   const masterChefV1TotalAllocPoint = 200
   useMasterChefV1TotalAllocPoint()
-  const masterChefV1SushiPerBlock = useMasterChefV1SushiPerBlock()
+
+  const masterChefV1SushiPerBlock = useMasterChefRewardPerBlock()
+
+  console.log('masterChefV1SushiPerBlock:', masterChefV1SushiPerBlock)
 
   const [sushiPrice, licpPrice, ethPrice, maticPrice, stakePrice, onePrice] = [
     useSushiPrice(),
