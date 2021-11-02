@@ -19,7 +19,7 @@ import useActiveWeb3React from '../../hooks/useActiveWeb3React'
 import { useLingui } from '@lingui/react'
 import useSWR from 'swr'
 import useSushiBar from '../../hooks/useSushiBar'
-import { useLICPPrice, useSushiPrice } from '../../services/graph'
+import { useICP20Price, useLICPPrice, useSushiPrice } from '../../services/graph'
 import { useTokenBalance } from '../../state/wallet/hooks'
 import { useWalletModalToggle } from '../../state/application/hooks'
 import { classNames } from '../../functions'
@@ -54,7 +54,7 @@ const buttonStyleInsufficientFunds = `${buttonStyleEnabled} opacity-60`
 const buttonStyleDisabled = `${buttonStyle} text-secondary bg-dark-700`
 const buttonStyleConnectWallet = `${buttonStyle} text-high-emphesis bg-cyan-blue hover:bg-opacity-90`
 
-const fetcher = (query) => request('https://api.thegraph.com/subgraphs/name/matthewlilley/bar', query)
+const fetcher = (query) => request('https://api.thegraph.com/subgraphs/name/agelesszeal/icp-bar', query)
 
 function Stake() {
   const { i18n } = useLingui()
@@ -65,7 +65,7 @@ function Stake() {
 
   // const totalStaked = useTokenBalance(st_ICP_ADDRESS, ICP20)
 
-  const [ratio, totalSupply] = useIcpBar()
+  // const [ratio, totalSupply] = useIcpBar()
 
   const unlockTime = useIcpBarUserInfo()
 
@@ -73,19 +73,15 @@ function Stake() {
 
   // const ratio = totalStaked.divide(totalShared)
 
-  // console.log('ratio', ratio)
+  // const sushiPrice = useLICPPrice() // useSushiPrice()
 
-  const sushiPrice = useLICPPrice() // useSushiPrice()
+  const icp20Price = useICP20Price() // useSushiPrice()
 
   const { enter, leave } = useSushiBar()
 
-  // const { data } = useSWR(`{bar(id: "0x8798249c2e607446efb7ad49ec89dd1865ff4272") {ratio, totalSupply}}`, fetcher)
+  const { data } = useSWR(`{bar(id: "0xe7946921c619f5d9e8f28e3a5b4d218e9520dd11") {ratio, totalSupply}}`, fetcher)
 
-  // const data = { bar: {
-  //   ratio:
-  // }}
-
-  const stIcpPerIcp_20 = ratio as number //parseFloat(ratio)
+  const stIcpPerIcp_20 = parseFloat(data?.bar?.ratio)
 
   const walletConnected = !!account
   const toggleWalletModal = useWalletModalToggle()
@@ -167,6 +163,13 @@ function Stake() {
   // TODO: DROP AND USE SWR HOOKS INSTEAD
   useEffect(() => {
     // const fetchData = async () => {
+    //   const results = await sushiData.exchange.dayData()
+    //   const apr = (((results[1].volumeUSD * 0.05) / data?.bar?.totalSupply) * 365) / (data?.bar?.ratio * sushiPrice)
+
+    //   setApr(apr)
+    // }
+
+    // const fetchData = async () => {
     //   // const results = await sushiData.exchange.dayData()
     //   // const checkRatio =
     //   const wicpVolumUsd = 100
@@ -176,13 +179,13 @@ function Stake() {
     // }
     // fetchData()
 
-    if (totalSupply && ratio) {
+    if ((data?.bar?.ratio, data?.bar?.totalSupply)) {
       const wicpVolumUsd = 1
-      const apr = (((wicpVolumUsd * 0.05) / parseFloat(totalSupply.toFixed())) * 365) / (stIcpPerIcp_20 * sushiPrice)
-
+      // const apr = (((results[1].volumeUSD * 0.05) / data?.bar?.totalSupply) * 365) / (data?.bar?.ratio * sushiPrice)
+      const apr = (((wicpVolumUsd * 0.05) / data?.bar?.totalSupply) * 365) / (data?.bar?.ratio * icp20Price)
       setApr(apr)
     }
-  }, [ratio, totalSupply])
+  }, [data?.bar?.ratio, data?.bar?.totalSupply, icp20Price])
 
   return (
     <Container id="bar-page" className="py-4 md:py-8 lg:py-12" maxWidth="full">
