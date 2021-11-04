@@ -111,8 +111,6 @@ const ManageBar = ({ farm }) => {
 
   const [approvalState, approve] = useApproveCallback(parsedDepositValue, APPROVAL_ADDRESSES[farm.chef][chainId])
 
-  console.log('ManageBar:', liquidityToken, approvalState)
-
   const depositError = !parsedDepositValue
     ? 'Enter an amount'
     : balance?.lessThan(parsedDepositValue)

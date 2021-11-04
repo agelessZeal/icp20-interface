@@ -38,27 +38,30 @@ export const MASTERCHEF_V1 = {
 export const masterChefV1 = async (query, chainId = ChainId.MAINNET, variables = undefined) =>
   request(`${GRAPH_HOST[chainId]}/subgraphs/name/${MASTERCHEF_V1[chainId]}`, query, variables)
 
+export const icpmasterChefV1 = async (query, chainId = ChainId.MAINNET, variables = undefined) =>
+  request(`https://api.thegraph.com/subgraphs/name/agelesszeal/icp-masterchef`, query, variables)
+
 export const getMasterChefV1TotalAllocPoint = async () => {
   const {
     masterChef: { totalAllocPoint },
-  } = await masterChefV1(masterChefV1TotalAllocPointQuery)
+  } = await icpmasterChefV1(masterChefV1TotalAllocPointQuery)
   return totalAllocPoint
 }
 
 export const getMasterChefV1SushiPerBlock = async () => {
   const {
     masterChef: { sushiPerBlock },
-  } = await masterChefV1(masterChefV1SushiPerBlockQuery)
+  } = await icpmasterChefV1(masterChefV1SushiPerBlockQuery)
   return sushiPerBlock / 1e18
 }
 
 export const getMasterChefV1Farms = async (variables = undefined) => {
-  const { pools } = await masterChefV1(poolsQuery, undefined, variables)
+  const { pools } = await icpmasterChefV1(poolsQuery, undefined, variables)
   return pools
 }
 
 export const getMasterChefV1PairAddreses = async () => {
-  const { pools } = await masterChefV1(masterChefV1PairAddressesQuery)
+  const { pools } = await icpmasterChefV1(masterChefV1PairAddressesQuery)
   return pools
 }
 

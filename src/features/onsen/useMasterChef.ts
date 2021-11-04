@@ -1,4 +1,4 @@
-import { useActiveWeb3React, useSushiContract } from '../../hooks'
+import { useActiveWeb3React, useLICPContract, useSushiContract } from '../../hooks'
 
 import { BigNumber } from '@ethersproject/bignumber'
 import { Chef } from './enum'
@@ -9,9 +9,11 @@ import { useChefContract } from './hooks'
 export default function useMasterChef(chef: Chef) {
   const { account } = useActiveWeb3React()
 
-  const sushi = useSushiContract()
+  const sushi = useLICPContract()
 
   const contract = useChefContract(chef)
+
+  console.log('useMasterChef', contract, chef)
 
   // Deposit
   const deposit = useCallback(

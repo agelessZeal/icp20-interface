@@ -82,15 +82,12 @@ export function useMiniChefFarms({ chainId }: useFarmsProps, swrConfig: SWRConfi
 
 export function useFarms({ chainId }: useFarmsProps, swrConfig: SWRConfiguration = undefined) {
   const masterChefV1Farms = useMasterChefV1Farms({ chainId })
-  const masterChefV2Farms = useMasterChefV2Farms({ chainId })
-  const miniChefFarms = useMiniChefFarms({ chainId })
+  // const masterChefV2Farms = useMasterChefV2Farms({ chainId })
+  // const miniChefFarms = useMiniChefFarms({ chainId })
   // useEffect(() => {
   //   console.log('debug', { masterChefV1Farms, masterChefV2Farms, miniChefFarms })
   // }, [masterChefV1Farms, masterChefV2Farms, miniChefFarms])
-  return useMemo(
-    () => concat(masterChefV1Farms, masterChefV2Farms, miniChefFarms).filter((pool) => pool && pool.pair),
-    [masterChefV1Farms, masterChefV2Farms, miniChefFarms]
-  )
+  return useMemo(() => concat(masterChefV1Farms).filter((pool) => pool && pool.pair), [masterChefV1Farms])
 }
 
 export function useMasterChefV1PairAddresses() {

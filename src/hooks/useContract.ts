@@ -59,6 +59,7 @@ import ZENKO_ABI from '../constants/abis/zenko.json'
 import { getContract } from '../functions/contract'
 import { useActiveWeb3React } from './useActiveWeb3React'
 import { useMemo } from 'react'
+import { LICP_ADDRESS } from '../constants'
 
 const UNI_FACTORY_ADDRESS = '0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f'
 
@@ -136,9 +137,13 @@ export function useSushiContract(withSignerIfPossible = true): Contract | null {
   return useContract(chainId && SUSHI_ADDRESS[chainId], SUSHI_ABI, withSignerIfPossible)
 }
 
+export function useLICPContract(withSignerIfPossible = true): Contract | null {
+  const { chainId } = useActiveWeb3React()
+  return useContract(chainId && LICP_ADDRESS, ERC20_ABI, withSignerIfPossible)
+}
+
 export function useMasterChefContract(withSignerIfPossible?: boolean): Contract | null {
   const { chainId } = useActiveWeb3React()
-  console.log('useMasterChefContract:', MASTERCHEF_ADDRESS[chainId])
   return useContract(chainId && MASTERCHEF_ADDRESS[chainId], MASTERCHEF_ABI, withSignerIfPossible)
 }
 

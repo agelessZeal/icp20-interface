@@ -19,7 +19,7 @@ import {
 import { ChainId, MASTERCHEF_ADDRESS, JSBI } from '@sushiswap/sdk'
 import { getAddress } from '@ethersproject/address'
 import useActiveWeb3React from './useActiveWeb3React'
-import { useMemo } from 'react'
+import { useCallback, useMemo } from 'react'
 import { usePositions } from '../features/onsen/hooks'
 import { aprToApy } from '../functions/convert/apyApr'
 import { useTokenBalances } from '../state/wallet/hooks'
@@ -27,14 +27,36 @@ import { Token, ZERO } from '@sushiswap/sdk'
 import { useMasterChefContract } from '.'
 import { NEVER_RELOAD, useSingleCallResult } from '../state/multicall/hooks'
 
+export function useMasterInfoCheck() {
+  const { account } = useActiveWeb3React()
+
+  const contract = useMasterChefContract(false)
+
+  console.log('useMasterChef', contract)
+
+  // Deposit
+  const rewardPerBlock = useCallback(async () => {
+    try {
+      let tx = await contract?.rewardPerBlock()
+      return tx
+    } catch (e) {
+      console.error(e)
+      return e
+    }
+  }, [account, contract])
+  return { rewardPerBlock }
+}
+
 export function useMasterChefRewardPerBlock() {
   const { account, chainId } = useActiveWeb3React()
 
-  const contract = useMasterChefContract()
+  const contract = useMasterChefContract(false)
 
-  const info = useSingleCallResult(contract, 'rewardPerBlock', undefined, NEVER_RELOAD)?.result
+  const info = useSingleCallResult(contract, 'rewardPerBlock')?.result
 
   const value = info?.[0]
+
+  console.log('useMasterChefRewardPerBlock', info, contract)
 
   const amount = value ? JSBI.BigInt(value.toString()) : undefined
 
@@ -49,6 +71,10 @@ export function useMasterChefRewardPerBlock() {
 
 export default function useFarmRewards() {
   // const { chainId } = useActiveWeb3React()
+
+  const { rewardPerBlock } = useMasterInfoCheck()
+
+  let value = rewardPerBlock()
 
   const chainId = ChainId.MATIC
 
@@ -114,8 +140,6 @@ export default function useFarmRewards() {
   )
 
   const stakedBalaces = useTokenBalances(MASTERCHEF_ADDRESS[ChainId.MATIC], liquidityTokens)
-
-  // console.log('stakedBalaces:', stakedBalaces)
 
   // const chfarms = useFarms({ chainId })
   const farmAddresses = useMemo(() => farms.map((farm) => farm.pair), [farms])
@@ -267,6 +291,7 @@ export default function useFarmRewards() {
       const stakedBalance = Object.values(stakedBalaces).find(
         (token) => token.currency.address.toLowerCase() === pool.pair
       )
+      console.log('stakedBalace:', pool.pair, stakedBalance?.toExact())
       if (stakedBalance) {
         balance = parseFloat(stakedBalance.toExact())
       }
